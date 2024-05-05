@@ -1,26 +1,12 @@
-import { cookies } from "next/headers";
-import { createClient } from "./supabase/server";
+import { Footer, Hero, Navigation, Posts } from "./components";
 
 export default async function Home() {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
-
-  const response = await supabase.from('posts').select()
-  const { data: posts, error } = response
-  console.log(response)
   return (
-    <ul>
-      {posts?.map((post) => (
-        <li key={post.id}>
-          <h2>
-            {post.title}
-          </h2>
-          <p>
-            {post.body}
-          </p>
-          <time>{post.created_at}</time>
-        </li>
-      ))}
-    </ul>
+    <main className="space-y-6 container max-w-screen-lg mx-auto">
+      <Navigation />
+      <Hero />
+      <Posts />
+      <Footer />
+    </main>
   )
 }
