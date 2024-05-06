@@ -10,6 +10,7 @@
 ### TO DO ✅
 
 - [ ] Develop main page.
+- [ ] Add markdown support
 - [ ] Add posts page
 - [ ] Add about me page
 - [ ] Add login page
