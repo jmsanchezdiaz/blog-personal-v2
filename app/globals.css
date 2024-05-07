@@ -1,3 +1,10 @@
-@tailwind base;
-@tailwind components;
+@tailwind base;@tailwind components;
 @tailwind utilities;
+
+/* Custom classes */
+@layer utilities {
+  .link {
+    @apply hover:underline;
+    @apply underline-offset-4;
+  }
+}

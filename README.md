@@ -16,6 +16,7 @@
 - [ ] Add login page
 - [ ] Add admin page
 - [ ] Add auth logic
-- [ ] Add dark mode
+- [x] Add dark mode
+- [ ] Add animations
 - [ ] Add I18n integration
 - [ ] (Optional) Add testing
