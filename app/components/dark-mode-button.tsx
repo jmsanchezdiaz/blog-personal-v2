@@ -1,10 +1,9 @@
-"use client"
 import React, { useEffect, useState } from 'react'
 import { CiDark, CiLight } from 'react-icons/ci'
 import { Theme } from '../types'
+// import { cookies } from 'next/headers'
 
-const DarkModeButton = () => {
-  const initTheme = window.localStorage.getItem("theme") as Theme ?? "light"
+const DarkModeButton = ({ initTheme }: { initTheme: Theme }) => {
   const [theme, setTheme] = useState<Theme>(initTheme)
 
   const changeTheme = () => {
@@ -23,7 +22,7 @@ const DarkModeButton = () => {
   }, [theme])
 
   return (
-    <button aria-label="toggle theme" onClick={changeTheme} className='text-4xl dark:text-white'>
+    <button aria-label="toggle theme" onClick={changeTheme} className='text-4xl'>
       {theme === "dark" ? <CiDark /> : <CiLight />}
     </button>
   )

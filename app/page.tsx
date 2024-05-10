@@ -1,13 +1,13 @@
-import { Footer, Hero, Navigation, Posts } from "./components";
+import { Footer, Hero, Posts } from "./components";
+import PageLayout from "./components/page-layout";
 
 
 export default async function Home() {
   return (
-    <main className="min-h-screen px-4 space-y-6 container max-w-screen-lg mx-auto">
-      <Navigation />
+    <PageLayout>
       <Hero />
       <Posts />
       <Footer />
-    </main>
+    </PageLayout>
   )
 }
