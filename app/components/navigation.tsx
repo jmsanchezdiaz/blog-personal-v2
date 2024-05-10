@@ -1,26 +1,22 @@
+"use server";
+
 import React from 'react'
 import Logo from './Logo'
 import Link from 'next/link'
-import dynamic from 'next/dynamic';
+import DarkModeButton from './dark-mode-button';
 import { cookies } from 'next/headers';
 import { Theme } from '../types';
-
-const DarkModeButton = dynamic(() => import('./dark-mode-button'), {
-  ssr: false,
-  loading: () => <div>Loading...</div> // TODO: poner loader como la gente
-});
+import { toggleTheme } from '../actions';
 
 const Navigation = () => {
-  // const cookiesStore = cookies()
-  // const theme = cookiesStore.get("theme")?.value as Theme
-
+  const theme = cookies().get("theme")?.value as Theme || "light"
   return (
     <header className="flex align-middle justify-between ">
       <Link href="/">
         <Logo className='w-20 h-20 dark:fill-white fill-black' />
       </Link>
 
-      <DarkModeButton initTheme={"light"} />
+      <DarkModeButton theme={theme} toggleTheme={toggleTheme} />
     </header>
   )
 }
