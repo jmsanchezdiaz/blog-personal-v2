@@ -1,10 +1,10 @@
+"use client"
 import React, { useEffect, useState } from 'react'
 import { CiDark, CiLight } from 'react-icons/ci'
 import { Theme } from '../types'
-// import { cookies } from 'next/headers'
 
 const DarkModeButton = ({ initTheme }: { initTheme: Theme }) => {
-  const [theme, setTheme] = useState<Theme>(initTheme)
+  const [theme, setTheme] = useState<Theme>(window.localStorage.getItem("theme") as Theme ?? initTheme)
 
   const changeTheme = () => {
     setTheme(theme === "light" ? "dark" : "light")

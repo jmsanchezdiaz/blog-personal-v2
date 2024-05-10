@@ -7,12 +7,12 @@ import { Theme } from '../types';
 
 const DarkModeButton = dynamic(() => import('./dark-mode-button'), {
   ssr: false,
-  loading: () => <div>Loading...</div>
+  loading: () => <div>Loading...</div> // TODO: poner loader como la gente
 });
 
 const Navigation = () => {
-  const cookiesStore = cookies()
-  const theme = cookiesStore.get("theme")?.value as Theme
+  // const cookiesStore = cookies()
+  // const theme = cookiesStore.get("theme")?.value as Theme
 
   return (
     <header className="flex align-middle justify-between ">
@@ -20,7 +20,7 @@ const Navigation = () => {
         <Logo className='w-20 h-20 dark:fill-white fill-black' />
       </Link>
 
-      <DarkModeButton initTheme={theme} />
+      <DarkModeButton initTheme={"light"} />
     </header>
   )
 }
