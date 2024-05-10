@@ -1,5 +1,6 @@
 import PageLayout from '@/app/components/page-layout'
 import { createClient } from '@/app/supabase/server'
+import { Post } from '@/app/types'
 import React from 'react'
 
 interface Params {
@@ -12,10 +13,22 @@ interface Params {
 const PostPage = async ({ params, searchParams }: Params) => {
   const supabase = createClient()
   const { data } = await supabase.from("posts").select().eq("id", params.id)
-  const [post] = data
+  const post: Post | null = data ? data[0] : null
+
+  if (!post) {
+    return <h2>Post not found</h2>
+  }
+
+
   return (
-    <PageLayout>
-      <h2>Posts: {params.id}</h2>
+    <PageLayout className='space-y-8'>
+      <h2 className='text-4xl font-bold'>{post.title}</h2>
+      <p >
+        {post.body}
+      </p>
+      <span>
+        {post.tags?.join(", ")}
+      </span>
     </PageLayout>
   )
 }
