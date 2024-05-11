@@ -7,4 +7,9 @@ export type Post = {
   title: string;
 };
 
+export type User = {
+  id: number;
+  username: string;
+};
+
 export type Theme = "light" | "dark";

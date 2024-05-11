@@ -2,10 +2,10 @@ import React from 'react'
 import { createClient } from '../supabase/server'
 import { Post } from "@/app/types"
 import PostItem from './post-item'
+import { getPosts } from '../supabase/actions'
 
 const Posts = async () => {
-  const supabase = createClient()
-  const { data: posts } = await supabase.from("posts").select()
+  const posts = await getPosts()
 
   return (
     <section>

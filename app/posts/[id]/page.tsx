@@ -1,35 +1,44 @@
 import PageLayout from '@/app/components/page-layout'
+import { getPost } from '@/app/supabase/actions'
 import { createClient } from '@/app/supabase/server'
-import { Post } from '@/app/types'
+import { Post, User } from '@/app/types'
+import moment from 'moment'
 import React from 'react'
 
 interface Params {
   params: {
     id: string
   },
-  searchParams: {}
 }
 
-const PostPage = async ({ params, searchParams }: Params) => {
-  const supabase = createClient()
-  const { data } = await supabase.from("posts").select().eq("id", params.id)
-  const post: Post | null = data ? data[0] : null
-
-  if (!post) {
-    return <h2>Post not found</h2>
-  }
-
+const PostPage = async ({ params }: Params) => {
+  const post = await getPost(
+    +params.id
+  )
 
   return (
     <PageLayout className='space-y-8'>
-      <h2 className='text-4xl font-bold'>{post.title}</h2>
-      <p >
+      <div className=" border-b-2 border-black dark:border-gray-300 pb-2">
+        <span className="text-gray-500 dark:text-gray-300">
+          {post.tags?.join(", ")}
+        </span>
+        <h2 className='text-4xl mb-2 font-bold'>{post.title}</h2>
+
+        <div className='flex justify-between text-gray-500 dark:text-gray-300'>
+          <span>
+            Published by {post.user.username}
+          </span>
+          <span>
+            {moment(post.created_at).format("MMM Do, YYYY")}
+          </span>
+        </div>
+
+      </div>
+      <p>
         {post.body}
       </p>
-      <span>
-        {post.tags?.join(", ")}
-      </span>
-    </PageLayout>
+
+    </PageLayout >
   )
 }
 
