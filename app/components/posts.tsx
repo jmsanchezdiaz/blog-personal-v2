@@ -1,8 +1,8 @@
 import React from 'react'
-import { createClient } from '../supabase/server'
+import { createClient } from '../libs/supabase/server'
 import { Post } from "@/app/types"
 import PostItem from './post-item'
-import { getPosts } from '../supabase/actions'
+import { getPosts } from '../libs/supabase/actions'
 
 const Posts = async () => {
   const posts = await getPosts()

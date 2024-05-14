@@ -1,9 +1,9 @@
-import PageLayout from '@/app/components/page-layout'
-import { getPost } from '@/app/supabase/actions'
-import { createClient } from '@/app/supabase/server'
-import { Post, User } from '@/app/types'
-import moment from 'moment'
 import React from 'react'
+import moment from 'moment'
+import PageLayout from '@/app/components/page-layout'
+import { getPost } from '@/app/libs/supabase/actions'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface Params {
   params: {
@@ -19,12 +19,12 @@ const PostPage = async ({ params }: Params) => {
   return (
     <PageLayout className='space-y-8'>
       <div className=" border-b-2 border-black dark:border-gray-300 pb-2">
-        <span className="text-gray-500 dark:text-gray-300">
-          {post.tags?.join(", ")}
+        <span className="text-gray-500 block mb-2 dark:text-gray-300">
+          Topics: {post.tags?.join(", ")}
         </span>
-        <h2 className='text-4xl mb-2 font-bold'>{post.title}</h2>
+        <h2 className='text-4xl my-4 font-bold'>{post.title}</h2>
 
-        <div className='flex justify-between text-gray-500 dark:text-gray-300'>
+        <div className='flex justify-between pb-2 text-gray-500 dark:text-gray-300'>
           <span>
             Published by {post.user.username}
           </span>
@@ -34,9 +34,11 @@ const PostPage = async ({ params }: Params) => {
         </div>
 
       </div>
-      <p>
+      <Markdown className="prose dark:prose-invert pb-8 max-w-full" remarkPlugins={[
+        remarkGfm
+      ]}>
         {post.body}
-      </p>
+      </Markdown>
 
     </PageLayout >
   )

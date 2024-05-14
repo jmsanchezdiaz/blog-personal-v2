@@ -1,4 +1,4 @@
-import { Footer, Hero, Posts } from "./components";
+import { Hero, Posts } from "./components";
 import PageLayout from "./components/page-layout";
 
 
@@ -7,7 +7,6 @@ export default async function Home() {
     <PageLayout>
       <Hero />
       <Posts />
-      <Footer />
     </PageLayout>
   )
 }
