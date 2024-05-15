@@ -1,5 +1,4 @@
-@tailwind base;
-@tailwind components;
+@tailwind base;@tailwind components;
 @tailwind utilities;
 
 /* Custom classes */
@@ -23,8 +22,7 @@
     @apply container;
     @apply max-w-screen-lg;
     @apply mx-auto;
-
-    display: grid;
-    grid-auto-rows: auto 80px;
+    @apply flex;
+    @apply flex-col;
   }
 }

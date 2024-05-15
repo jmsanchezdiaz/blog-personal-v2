@@ -7,7 +7,7 @@ const PageLayout = ({ children, className = "" }: PropsWithChildren<{
 }>) => {
   return (
     <main className={'layout ' + className}>
-      <div>
+      <div className="flex-1">
         <Navigation />
         {children}
       </div>
