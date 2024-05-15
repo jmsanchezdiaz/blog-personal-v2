@@ -1,5 +1,4 @@
 # Welcome to my personal blog 🙂
-
 ### Instructions to run locally 💻
 
 1. Clone this repository.
@@ -19,4 +18,5 @@
 - [x] Add dark mode
 - [ ] Add animations
 - [ ] Add I18n integration
+- [ ] Add spotify integration
 - [ ] (Optional) Add testing
