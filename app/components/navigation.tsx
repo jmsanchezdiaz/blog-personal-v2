@@ -11,7 +11,7 @@ import { toggleTheme } from '../actions';
 const Navigation = () => {
   const theme = cookies().get("theme")?.value as Theme || "light"
   return (
-    <header className="flex align-middle justify-between ">
+    <header className="flex items-center justify-between ">
       <Link href="/">
         <Logo className='w-20 h-20 dark:fill-white fill-black' />
       </Link>

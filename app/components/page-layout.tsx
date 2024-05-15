@@ -7,8 +7,10 @@ const PageLayout = ({ children, className = "" }: PropsWithChildren<{
 }>) => {
   return (
     <main className={'layout ' + className}>
-      <Navigation />
-      {children}
+      <div>
+        <Navigation />
+        {children}
+      </div>
       <Footer />
     </main>
   )

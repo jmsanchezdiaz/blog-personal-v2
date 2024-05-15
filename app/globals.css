@@ -7,14 +7,24 @@
   .link {
     @apply hover:underline;
     @apply underline-offset-4;
+    @apply text-green-800;
+    @apply dark:text-green-300;
+  }
+
+  .icon {
+    @apply hover:text-gray-300;
+    @apply dark:hover:text-green-800;
+    @apply dark:text-green-300;
   }
 
   .layout {
     @apply min-h-screen;
     @apply px-4;
-    @apply space-y-6;
     @apply container;
     @apply max-w-screen-lg;
     @apply mx-auto;
+
+    display: grid;
+    grid-auto-rows: auto 80px;
   }
 }
