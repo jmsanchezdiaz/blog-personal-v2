@@ -12,7 +12,7 @@ const DarkModeButton = ({ theme, toggleTheme }: Props) => {
   return (
     <button aria-label="toggle theme" onClick={async () => {
       await toggleTheme()
-    }} className='text-4xl'>
+    }} className='text-4xl icon'>
       {theme === "dark" ? <CiDark /> : <CiLight />}
     </button>
   )
