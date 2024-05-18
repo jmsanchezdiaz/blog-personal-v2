@@ -1,5 +1,5 @@
 "use client"
-import React, { ChangeEvent, FormEvent, FormEventHandler, KeyboardEvent, KeyboardEventHandler, useState } from 'react'
+import React, { ChangeEvent, FormEvent, KeyboardEvent, useState } from 'react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { CreateFormErrors, CreateFormValues } from '../types'
@@ -49,15 +49,12 @@ const CreateForm = () => {
     const result = schema.safeParse(formState)
     const errors = result.error?.formErrors.fieldErrors
 
-    if (result.success) {
-      //Todo: Run supabase save post action
-      setFormState(initState)
-      event.currentTarget.reset()
-      setFormErrors({})
-    }
-    else {
-      setFormErrors(errors)
-    }
+    if (!result.success) return setFormErrors(errors)
+
+    //Todo: Run supabase save post action
+    setFormState(initState)
+    event.currentTarget.reset()
+    setFormErrors({})
   }
 
   const handleTagClear = (index: number) => {
@@ -72,28 +69,27 @@ const CreateForm = () => {
 
   const handleTagChange = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.code !== "Enter") return;
+
     event.preventDefault()
     const currentTag = event.currentTarget.value
     const validatedTag = schema.shape.tags.safeParse([currentTag])
 
-    const hasSucceded = validatedTag.success
+    const hasErrors = !validatedTag.success
 
-    if (hasSucceded) {
-      setFormState({
-        ...formState,
-        tags: formState.tags.concat(currentTag)
-      })
-      event.currentTarget.value = ""
-      setFormErrors({
-        ...formErrors,
-        tags: undefined
-      })
-      return;
-    }
-    setFormErrors({
+    if (hasErrors) return setFormErrors({
       ...formErrors,
       tags: [validatedTag.error.errors[0].message]
     })
+
+    setFormState({
+      ...formState,
+      tags: formState.tags.concat(currentTag)
+    })
+    setFormErrors({
+      ...formErrors,
+      tags: undefined
+    })
+    event.currentTarget.value = ''
   }
 
   const setFieldValue = (name: keyof CreateFormValues) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -103,36 +99,38 @@ const CreateForm = () => {
     })
   }
 
+  //w-full mt-4 p-2 border-b-2 border-black
+
   return (
     <section className='flex gap-6'>
       <div className='flex-1 h-full'>
         <h2 className="text-3xl font-bold my-4">Escribir publicacion</h2>
         <form onSubmit={handleSubmit}>
-          <input onChange={setFieldValue("title")} placeholder='Titulo' className='w-full mt-4 p-2 border-b-2 border-black' type="text" id="title" name="title" />
+          <input onChange={setFieldValue("title")} placeholder='Titulo' className='input' type="text" id="title" name="title" />
           <FormError>
             {formErrors?.title && formErrors?.title[0]}
           </FormError>
-          <textarea onChange={setFieldValue("description")} className="min-h-16 w-full mt-4 p-2 border-b-2 border-black" placeholder="Descripcion" id="description" name="description" />
+          <textarea onChange={setFieldValue("description")} className="min-h-16  input" placeholder="Descripcion" id="description" name="description" />
           <FormError>
             {formErrors?.description && formErrors?.description[0]}
           </FormError>
-          <textarea className="min-h-28 w-full mt-4 p-2 border-b-2 border-black" placeholder="Contenido" onChange={setFieldValue("body")} id="body" name="body" />
+          <textarea className="min-h-28 input" placeholder="Contenido" onChange={setFieldValue("body")} id="body" name="body" />
           <FormError>
             {formErrors?.body && formErrors?.body[0]}
           </FormError>
-          <div id="tags" className='mt-4'>
+          <div className='mt-4'>
             <input
-              onKeyDown={handleTagChange} className="block w-full border-b-2 border-black p-2" placeholder="Etiquetas" type="text" id="tags" name="tags" />
+              onKeyDown={handleTagChange} className="input" placeholder="Etiquetas" type="text" id="tags" name="tags" />
           </div>
           <FormError>
             {formErrors?.tags && formErrors?.tags[0]}
           </FormError>
-          <div className='mt-2'>
+          <div className='mt-2 flex flex-wrap gap-2'>
             {
               formState.tags.map((tag, index) => (
                 <div key={index} className='inline-flex items-center gap-1 bg-green-300 text-white border-2  rounded-lg py-[0.20rem] px-2'>
                   <span>{tag}</span>
-                  <button key={index} aria-label="Remove tag" className='font-bold' onClick={() => handleTagClear(index)}>
+                  <button type="button" key={index} aria-label="Remove tag" className='font-bold' onClick={() => handleTagClear(index)}>
                     <RxCross2 />
                   </button>
                 </div>
