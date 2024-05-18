@@ -8,6 +8,9 @@
 
 ### TO DO ✅
 
+- [ ] Remover spanglish (todo en español por ahora)
+- [ ] Añadir la posibilidad de subir archivos md.
+- [ ] Arreglar Darkmode create view
 - [ ] Develop main page.
 - [ ] Add markdown support
 - [ ] Add posts page
@@ -15,8 +18,8 @@
 - [ ] Add login page
 - [ ] Add admin page
 - [ ] Add auth logic
-- [x] Add dark mode
+- [x] Add dark mode logc
 - [ ] Add animations
-- [ ] Add I18n integration
+- [ ] (Optional) Add I18n integration
 - [ ] Add spotify integration
 - [ ] (Optional) Add testing

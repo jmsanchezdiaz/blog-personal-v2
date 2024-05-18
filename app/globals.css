@@ -1,5 +1,4 @@
-@tailwind base;
-@tailwind components;
+@tailwind base;@tailwind components;
 @tailwind utilities;
 
 /* Custom classes */
@@ -30,5 +29,10 @@
     @apply mx-auto;
     @apply flex;
     @apply flex-col;
+  }
+
+  .markdown {
+    @apply prose;
+    @apply dark:prose-invert;
   }
 }

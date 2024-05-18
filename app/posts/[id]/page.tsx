@@ -34,7 +34,7 @@ const PostPage = async ({ params }: Params) => {
         </div>
 
       </div>
-      <Markdown className="prose dark:prose-invert pb-8 max-w-full" remarkPlugins={[
+      <Markdown className="markdown pb-8 max-w-full" remarkPlugins={[
         remarkGfm
       ]}>
         {post.body}

@@ -21,3 +21,10 @@ export interface CreateFormValues {
   body: string;
   tags: string[];
 }
+
+export interface CreateFormErrors {
+  title?: string[];
+  description?: string[];
+  body?: string[];
+  tags?: string[];
+}
