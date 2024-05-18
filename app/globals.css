@@ -37,7 +37,8 @@
     @apply dark:prose-invert;
   }
 
-  .input {
+  .input,
+  .input-rounded {
     @apply block;
     @apply w-full;
     @apply px-4;
@@ -46,11 +47,14 @@
     @apply bg-gray-100;
     @apply border;
     @apply border-gray-200;
-    @apply rounded-lg;
     @apply focus:outline-none;
     @apply focus:border-green-500;
     @apply dark:text-gray-200;
     @apply dark:bg-gray-800;
     @apply dark:border-gray-700;
+  }
+
+  .input-rounded {
+    @apply rounded-lg;
   }
 }

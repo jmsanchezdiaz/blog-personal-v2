@@ -2,10 +2,12 @@
 import React, { ChangeEvent, FormEvent, KeyboardEvent, useState } from 'react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { CreateFormErrors, CreateFormValues } from '../types'
+import { CreateFormErrors, CreateFormValues } from '../../types'
 import { RxCross2 } from 'react-icons/rx'
 import { z } from "zod"
-import FormError from './form-error'
+import Textarea from './textarea'
+import Input from './input'
+import Tag from '../tag'
 
 const schema = z.object({
   title: z.string().min(5,
@@ -106,34 +108,30 @@ const CreateForm = () => {
       <div className='flex-1 h-full'>
         <h2 className="text-3xl font-bold my-4">Escribir publicacion</h2>
         <form onSubmit={handleSubmit}>
-          <input onChange={setFieldValue("title")} placeholder='Titulo' className='input' type="text" id="title" name="title" />
-          <FormError>
-            {formErrors?.title && formErrors?.title[0]}
-          </FormError>
-          <textarea onChange={setFieldValue("description")} className="min-h-16  input" placeholder="Descripcion" id="description" name="description" />
-          <FormError>
-            {formErrors?.description && formErrors?.description[0]}
-          </FormError>
-          <textarea className="min-h-28 input" placeholder="Contenido" onChange={setFieldValue("body")} id="body" name="body" />
-          <FormError>
-            {formErrors?.body && formErrors?.body[0]}
-          </FormError>
+          <Input onChange={setFieldValue("title")} placeholder='Titulo' className='input' currentLength={formState.title.length} maxLength={80} type="text" id="title" name="title" errorMessage={
+            formErrors?.title && formErrors?.title[0]
+          } />
+          <Textarea maxLength={250} currentLength={
+            formState.description.length
+          } onChange={setFieldValue("description")} className="min-h-16  input" placeholder="Descripcion" id="description" name="description" errorMessage={formErrors?.description && formErrors?.description[0]} />
+
+          <Textarea
+            currentLength={formState.body.length}
+            className="min-h-28 input" placeholder="Contenido" onChange={setFieldValue("body")} id="body" name="body" errorMessage={formErrors?.body && formErrors?.body[0]}
+          />
           <div className='mt-4'>
-            <input
-              onKeyDown={handleTagChange} className="input" placeholder="Etiquetas" type="text" id="tags" name="tags" />
+            <Input
+              onKeyDown={handleTagChange} className="input" placeholder="Etiquetas" type="text" id="tags" name="tags" errorMessage={formErrors?.tags && formErrors?.tags[0]} />
           </div>
-          <FormError>
-            {formErrors?.tags && formErrors?.tags[0]}
-          </FormError>
           <div className='mt-2 flex flex-wrap gap-2'>
             {
               formState.tags.map((tag, index) => (
-                <div key={index} className='inline-flex items-center gap-1 bg-green-300 text-white border-2  rounded-lg py-[0.20rem] px-2'>
-                  <span>{tag}</span>
-                  <button type="button" key={index} aria-label="Remove tag" className='font-bold' onClick={() => handleTagClear(index)}>
-                    <RxCross2 />
-                  </button>
-                </div>
+                <Tag
+                  key={index}
+                  tag={tag}
+                  index={index}
+                  onClear={handleTagClear}
+                />
               ))
             }
           </div>
