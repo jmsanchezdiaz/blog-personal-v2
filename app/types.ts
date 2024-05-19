@@ -1,5 +1,4 @@
-export type Post = {
-  id: number;
+export type Post = {  id: number;
   created_at: string;
   body: string;
   tags: string[] | null;
@@ -20,11 +19,4 @@ export interface CreateFormValues {
   description: string;
   body: string;
   tags: string[];
-}
-
-export interface CreateFormErrors {
-  title?: string[];
-  description?: string[];
-  body?: string[];
-  tags?: string[];
 }

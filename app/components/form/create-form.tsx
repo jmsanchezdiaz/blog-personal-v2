@@ -1,14 +1,12 @@
 "use client"
-import React, { ChangeEvent, FormEvent, KeyboardEvent, useState } from 'react'
+import React, { FormEvent, KeyboardEvent } from 'react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { CreateFormErrors, CreateFormValues } from '../../types'
-import { RxCross2 } from 'react-icons/rx'
+import { CreateFormValues } from '../../types'
 import { z } from "zod"
-import Textarea from './textarea'
-import Input from './input'
 import Tag from '../tag'
 import useForm from '@/app/hooks/useForm'
+import { Textarea, Input } from '.'
 
 const schema = z.object({
   title: z.string().min(5,
