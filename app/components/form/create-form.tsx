@@ -8,6 +8,7 @@ import { z } from "zod"
 import Textarea from './textarea'
 import Input from './input'
 import Tag from '../tag'
+import useForm from '@/app/hooks/useForm'
 
 const schema = z.object({
   title: z.string().min(5,
@@ -35,16 +36,15 @@ const schema = z.object({
 
 
 const CreateForm = () => {
-  // TODO: Abstraer logica a un hook llamado useForm, 
+  // TODO: Abstraer logica a un hook llamado useForm,
   const initState = {
     title: '',
     description: '',
     body: '',
     tags: []
   }
-  const [formState, setFormState] = useState<CreateFormValues>(initState)
-  const [formErrors, setFormErrors] = useState<CreateFormErrors>(
-  )
+
+  const { handleChange, formErrors, formState, setErrorField, reset, setFormErrors, setFieldValue } = useForm<CreateFormValues>(initState)
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -54,19 +54,12 @@ const CreateForm = () => {
     if (!result.success) return setFormErrors(errors)
 
     //Todo: Run supabase save post action
-    setFormState(initState)
-    event.currentTarget.reset()
-    setFormErrors({})
+    reset(event)
   }
 
   const handleTagClear = (index: number) => {
     // TODO: usar un set maybe?
-    setFormState(
-      {
-        ...formState,
-        tags: formState.tags.filter((_, i) => i !== index)
-      }
-    )
+    setFieldValue('tags', formState.tags.filter((_, i) => i !== index))
   }
 
   const handleTagChange = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -78,46 +71,32 @@ const CreateForm = () => {
 
     const hasErrors = !validatedTag.success
 
-    if (hasErrors) return setFormErrors({
-      ...formErrors,
-      tags: [validatedTag.error.errors[0].message]
-    })
+    if (hasErrors) return setErrorField("tags",
+      [validatedTag.error.errors[0].message]
+    )
 
-    setFormState({
-      ...formState,
-      tags: formState.tags.concat(currentTag)
-    })
-    setFormErrors({
-      ...formErrors,
-      tags: undefined
-    })
+    setFieldValue("tags",
+      formState.tags.concat(currentTag)
+    )
+    setErrorField("tags", undefined)
     event.currentTarget.value = ''
   }
-
-  const setFieldValue = (name: keyof CreateFormValues) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormState({
-      ...formState,
-      [name]: event.target.value
-    })
-  }
-
-  //w-full mt-4 p-2 border-b-2 border-black
 
   return (
     <section className='flex gap-6'>
       <div className='flex-1 h-full'>
         <h2 className="text-3xl font-bold my-4">Escribir publicacion</h2>
         <form onSubmit={handleSubmit}>
-          <Input onChange={setFieldValue("title")} placeholder='Titulo' className='input' currentLength={formState.title.length} maxLength={80} type="text" id="title" name="title" errorMessage={
+          <Input onChange={handleChange} placeholder='Titulo' className='input' currentLength={formState.title.length} maxLength={80} type="text" id="title" name="title" errorMessage={
             formErrors?.title && formErrors?.title[0]
           } />
           <Textarea maxLength={250} currentLength={
             formState.description.length
-          } onChange={setFieldValue("description")} className="min-h-16  input" placeholder="Descripcion" id="description" name="description" errorMessage={formErrors?.description && formErrors?.description[0]} />
+          } onChange={handleChange} className="min-h-16  input" placeholder="Descripcion" id="description" name="description" errorMessage={formErrors?.description && formErrors?.description[0]} />
 
           <Textarea
             currentLength={formState.body.length}
-            className="min-h-28 input" placeholder="Contenido" onChange={setFieldValue("body")} id="body" name="body" errorMessage={formErrors?.body && formErrors?.body[0]}
+            className="min-h-28 input" placeholder="Contenido" onChange={handleChange} id="body" name="body" errorMessage={formErrors?.body && formErrors?.body[0]}
           />
           <div className='mt-4'>
             <Input
