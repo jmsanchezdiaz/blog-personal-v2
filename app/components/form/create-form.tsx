@@ -2,61 +2,39 @@
 import React, { FormEvent, KeyboardEvent } from 'react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { CreateFormValues } from '../../types'
-import { z } from "zod"
+import { CreateFormValues, Post } from '../../types'
 import Tag from '../tag'
 import useForm from '@/app/hooks/useForm'
 import { Textarea, Input } from '.'
-
-const schema = z.object({
-  title: z.string().min(5,
-    {
-      message: "El titulo debe tener al menos 5 caracteres"
-    }
-  ).max(80,
-    {
-      message: "El titulo debe tener menos de 80 caracteres"
-    }
-  ).trim(),
-  description: z.string().min(5, {
-    message: "La descripcion debe tener al menos 5 caracteres"
-
-  }).max(250, {
-    message: "La descripcion debe tener menos de 250 caracteres"
-
-  }).trim(),
-  body: z.string().min(100, {
-    message: "El cuerpo del post debe tener al menos 100 caracteres"
-
-  }).trim(),
-  tags: z.array(z.string().min(1, { message: "Las etiquetas deben tener al menos 1 caracter" }))
-})
+import { savePost } from '@/app/libs/supabase/actions'
+import { PostSchema } from './utils'
 
 
 const CreateForm = () => {
-  // TODO: Abstraer logica a un hook llamado useForm,
   const initState = {
-    title: '',
-    description: '',
-    body: '',
-    tags: []
+    title: 'Titulo!',
+    description: 'Descripcion!',
+    body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi eos neque tempore saepe voluptatum, est voluptas tempora hic quisquam deserunt numquam perspiciatis possimus qui perferendis natus a, consequatur cum necessitatibus beatae, enim molestias quia non. Fugit libero corrupti asperiores suscipit repellat quaerat dolores? Aperiam et vel tempora architecto, quaerat velit ducimus vitae corrupti! Laborum reprehenderit nesciunt, reiciendis nemo ratione cupiditate voluptates suscipit dolores, minus obcaecati perspiciatis illo, repellat consectetur unde iste. Mollitia accusantium doloremque exercitationem ab repudiandae perferendis laborum praesentium, voluptates unde labore molestiae officiis culpa aliquid voluptas. Quibusdam autem veritatis mollitia reprehenderit ex dignissimos ratione blanditiis error quis? Quas, quod laboriosam!',
+    tags: ["React"]
   }
+
 
   const { handleChange, formErrors, formState, setErrorField, reset, setFormErrors, setFieldValue } = useForm<CreateFormValues>(initState)
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const result = schema.safeParse(formState)
+    const result = PostSchema.safeParse(formState)
     const errors = result.error?.formErrors.fieldErrors
 
     if (!result.success) return setFormErrors(errors)
 
-    //Todo: Run supabase save post action
+    const { data } = result
+
+    await savePost(data)
     reset(event)
   }
 
   const handleTagClear = (index: number) => {
-    // TODO: usar un set maybe?
     setFieldValue('tags', formState.tags.filter((_, i) => i !== index))
   }
 
@@ -64,8 +42,9 @@ const CreateForm = () => {
     if (event.code !== "Enter") return;
 
     event.preventDefault()
+
     const currentTag = event.currentTarget.value
-    const validatedTag = schema.shape.tags.safeParse([currentTag])
+    const validatedTag = PostSchema.shape.tags.safeParse([currentTag])
 
     const hasErrors = !validatedTag.success
 

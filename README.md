@@ -8,9 +8,16 @@
 
 ### TO DO ✅
 
+##### Next features
+
+- [ ] Añadir Toasts
 - [ ] Remover spanglish (todo en español por ahora)
-- [ ] Añadir la posibilidad de subir archivos md.
 - [ ] Arreglar Darkmode create view
+- [ ] Pagination for posts section!
+
+##### Features
+
+- [ ] Añadir la posibilidad de subir archivos md.
 - [ ] Develop main page.
 - [ ] Add markdown support
 - [ ] Add posts page

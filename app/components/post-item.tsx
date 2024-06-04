@@ -10,7 +10,7 @@ interface Props {
 
 const PostItem = async ({ post }: Props) => {
   return (
-    <Link href={"/posts/" + post.id}>
+    <Link className='mb-4 block' href={"/posts/" + post.id}>
       <li className="flex flex-col gap-2" key={post.id}>
         <h6 className="font-semibold text-lg">{post.title}</h6>
         <p className="text-gray-700 line-clamp-2 dark:text-gray-400" >

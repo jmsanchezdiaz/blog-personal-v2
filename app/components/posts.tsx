@@ -5,7 +5,7 @@ import { getPosts } from '../libs/supabase/actions'
 
 const Posts = async () => {
   const posts = await getPosts()
-
+  //TODO : PAGINACION
   return (
     <section>
       <h2 className='text-3xl mb-2 font-bold border-b-[1px] border-gray-500 dark:border-gray-300 pb-3'>Posts</h2>
