@@ -30,3 +30,4 @@
 - [ ] (Optional) Add I18n integration
 - [ ] Add spotify integration
 - [ ] (Optional) Add testing
+- [ ] Abstraer toda la logica de BE y DB para poder migrar a otra BD cloud.
